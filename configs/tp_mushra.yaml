@@ -3,6 +3,7 @@ testId: tp_mushra
 bufferSize: 2048
 stopOnErrors: true
 showButtonPreviousPage: true
+remoteService: service/write.php
 language: es
 
 
