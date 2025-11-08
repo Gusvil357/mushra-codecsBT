@@ -1,0 +1,135 @@
+testname: Test MUSHRA – Códecs Bluetooth/LC3
+testId: tp_mushra
+bufferSize: 2048
+stopOnErrors: true
+showButtonPreviousPage: true
+remoteService: service/write.php
+language: es
+
+
+pages:
+
+  # 1) INTRODUCCIÓN
+  - type: generic
+    id: intro
+    name: Bienvenida
+    content: |
+      Bienvenido/a al test de evaluación subjetiva de calidad de audio.<br><br>
+
+      En este experimento vas a escuchar fragmentos musicales procesados con distintos códecs.
+      La tarea es calificar qué tan bien suena cada versión en comparación con la referencia (100 = idéntico, 0 = muy degradado).<br><br>
+      Por favor, realizá el test con auriculares y mantené el mismo nivel de volumen durante toda la sesión.
+
+  # 2) CALIBRACIÓN
+  - type: mushra
+    id: calibration
+    name: Calibración
+    content: |
+      Reproducí la referencia y ajustá el volumen de tu sistema a un nivel cómodo.<br>
+      Usá auriculares y mantené ese mismo nivel durante todo el test.<br>
+      No es necesario que califiques esta página; podés poner 100 y continuar.
+    showWaveform: false
+    enableLooping: true
+    reference: configs/resources/audio/calibration_noise.wav
+
+  # 3) ENTRENAMIENTO
+  - type: mushra
+    id: training
+    name: Entrenamiento
+    content: |
+      En esta etapa vas a practicar cómo funciona el test.<br><br>
+      1) Escuchá primero la <b>Referencia</b>.<br>
+      2) Luego escuchá el <b>Ancla</b> y las demás versiones.<br>
+      3) Asigná un valor de 0 a 100 según la calidad percibida respecto de la referencia.<br><br>
+      En el test real el orden será aleatorio y habrá una referencia oculta.
+    reference: configs/resources/audio/jazz_hr.wav
+    enableLooping: true
+    randomize: false
+    showWaveform: false
+    showConditionNames: true  # esto hace que aparezca el ID abajo de "Cond. X"
+    # NO ponemos createAnchor35/70 para no que aparezcan esas extras
+    stimuli:
+      Ancla:     configs/resources/audio/jazz_an.wav
+      #Referencia oculta:       configs/resources/audio/jazz_hr.wav
+      SBC:       configs/resources/audio/jazz_sbc.wav
+      ADPCM:     configs/resources/audio/jazz_adpcm.wav
+
+  # 4) TRIAL 1 – POP
+  - type: mushra
+    id: pop_trial
+    name: Ensayo 1
+    content: |
+      Calificá cada versión según su <b>calidad percibida</b> en comparación con la referencia.<br>
+      Podés reproducir los audios las veces que necesites y en cualquier orden.
+    reference: configs/resources/audio/pop_hr.wav
+    enableLooping: true
+    randomize: true
+    stimuli:
+      anchor: configs/resources/audio/pop_an.wav
+      sbc: configs/resources/audio/pop_sbc.wav
+      aac: configs/resources/audio/pop_aac.wav
+      adpcm: configs/resources/audio/pop_adpcm.wav
+      opus: configs/resources/audio/pop_opus.wav
+      lc3: configs/resources/audio/pop_lc3.wav
+
+  # 5) TRIAL 2 – ROCK
+  - type: mushra
+    id: rock_trial
+    name: Ensayo 2
+    content: |
+      Calificá cada versión según su <b>calidad percibida</b> en comparación con la referencia.<br>
+      Podés reproducir los audios las veces que necesites y en cualquier orden.
+    reference: configs/resources/audio/rock_hr.wav
+    enableLooping: true
+    randomize: true
+    stimuli:
+      anchor: configs/resources/audio/rock_an.wav
+      sbc: configs/resources/audio/rock_sbc.wav
+      aac: configs/resources/audio/rock_aac.wav
+      adpcm: configs/resources/audio/rock_adpcm.wav
+      opus: configs/resources/audio/rock_opus.wav
+      lc3: configs/resources/audio/rock_lc3.wav
+
+  # 6) TRIAL 3 – STRINGS / FOLK
+  - type: mushra
+    id: strings_trial
+    name: Ensayo 3
+    content: |
+      Calificá cada versión según su <b>calidad percibida</b> en comparación con la referencia.<br>
+      Podés reproducir los audios las veces que necesites y en cualquier orden.
+    reference: configs/resources/audio/strings_hr.wav
+    enableLooping: true
+    randomize: true
+    stimuli:
+      anchor: configs/resources/audio/strings_an.wav
+      sbc: configs/resources/audio/strings_sbc.wav
+      aac: configs/resources/audio/strings_aac.wav
+      adpcm: configs/resources/audio/strings_adpcm.wav
+      opus: configs/resources/audio/strings_opus.wav
+      lc3: configs/resources/audio/strings_lc3.wav
+
+  # 7) (OPCIONAL) TRIAL 4 – DRUM
+  - type: mushra
+    id: drum_trial
+    name: Ensayo 4
+    content: |
+      Calificá cada versión según su <b>calidad percibida</b> en comparación con la referencia.<br>
+      Podés reproducir los audios las veces que necesites y en cualquier orden.
+    reference: configs/resources/audio/drum_hr.wav
+    enableLooping: true
+    randomize: true
+    stimuli:
+      anchor: configs/resources/audio/drum_an.wav
+      sbc: configs/resources/audio/drum_sbc.wav
+      aac: configs/resources/audio/drum_aac.wav
+      adpcm: configs/resources/audio/drum_adpcm.wav
+      opus: configs/resources/audio/drum_opus.wav
+      lc3: configs/resources/audio/drum_lc3.wav
+
+  # 8) FIN
+  - type: finish
+    name: Fin
+    content: >
+      ¡Gracias por participar! Tus respuestas serán registradas al presionar "Send Results".
+    writeResults: false
+    showResults: false
