@@ -1,4 +1,4 @@
-testname: Test MUSHRA – Códecs Bluetooth/LC3
+testname: Test MUSHRA Códecs Bluetooth
 testId: tp_mushra
 bufferSize: 2048
 stopOnErrors: true
