@@ -46,10 +46,8 @@ pages:
     randomize: false
     showWaveform: false
     showConditionNames: true  # esto hace que aparezca el ID abajo de "Cond. X"
-    # NO ponemos createAnchor35/70 para no que aparezcan esas extras
     stimuli:
       Ancla:     configs/resources/audio/jazz_an.wav
-      #Referencia oculta:       configs/resources/audio/jazz_hr.wav
       SBC:       configs/resources/audio/jazz_sbc.wav
       ADPCM:     configs/resources/audio/jazz_adpcm.wav
 
@@ -131,30 +129,5 @@ pages:
     content: >
       ¡Gracias por participar! Tus respuestas serán registradas al presionar "Send Results".
     writeResults: false
-    showResults: true
-    questionnaire:
-        - type: text
-          label: eMail
-          name: email
-          optional: false
-        - type: number
-          label: Age
-          name: age
-          optional: true
-          min: 0
-          max: 100
-          default: 30
-        - type: likert
-          name: gender
-          label: Gender
-          response:
-            - value: female
-              label: Female
-            - value: male
-              label: Male
-            - value: other
-              label: Other
-        - type: long_text
-          label: Feedback
-          name: feedback
-          optional: true
+    showResults: false
+
