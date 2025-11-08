@@ -130,5 +130,31 @@ will be prosecuted to the maximum extent possible under law.
       </div>
     </div>
     <script src="startup.min.js"></script>
+    <!-- 1) cargamos js-yaml desde CDN -->
+    <script type="module">
+      import yaml from "https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.mjs";
+
+      // función que arranca webMUSHRA usando nuestro YAML ya parseado
+      async function startCustomMushra() {
+        // 2) bajamos TU archivo del repo
+        const resp = await fetch("configs/tp_mushra.yaml");
+        const text = await resp.text();
+
+        // 3) lo convertimos a objeto JS
+        const config = yaml.load(text);
+
+        // 4) arrancamos webMUSHRA con ese objeto
+        // (esto es lo que normalmente hace startup.min.js cuando le pasa ?config=...)
+        if (window.webmushra && window.webmushra.main) {
+          window.webmushra.main.startFromConfig(config);
+        } else {
+          console.error("webMUSHRA no está cargado todavía");
+        }
+      }
+
+      // esperamos a que la página y webMUSHRA estén listos
+      window.addEventListener("load", startCustomMushra);
+    </script>
+
   </body>
 </html>
