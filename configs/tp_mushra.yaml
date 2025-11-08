@@ -1,4 +1,4 @@
-testname: Test MUSHRA Códecs Bluetooth
+testname: Test MUSHRA gitCódecs Bluetooth
 testId: tp_mushra
 bufferSize: 2048
 stopOnErrors: true
