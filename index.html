@@ -160,5 +160,25 @@ will be prosecuted to the maximum extent possible under law.
         waitForWebMushra(cfg);
       })();
     </script>
+    <script>
+      // cuando esté todo cargado, anulamos las funciones que rompen
+      window.addEventListener("load", function () {
+        if (window.MushraAudioControl) {
+          // anular ancla 35
+          if (typeof window.MushraAudioControl.prototype.createLowerAnchor35 === "function") {
+            window.MushraAudioControl.prototype.createLowerAnchor35 = function () {
+              // no-op
+            };
+          }
+          // anular convolución por si la llama directo
+          if (typeof window.MushraAudioControl.prototype.convolve === "function") {
+            window.MushraAudioControl.prototype.convolve = function () {
+              // no-op
+              return;
+            };
+          }
+        }
+      });
+    </script>
   </body>
 </html>
