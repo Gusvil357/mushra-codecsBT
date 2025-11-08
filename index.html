@@ -57,6 +57,22 @@ will be prosecuted to the maximum extent possible under law.
     <!-- webMUSHRA -->
     <script src="lib/webMUSHRA.js"></script>
 
+    <!-- ⚠️ parche: desactivar creación de anclas ANTES de que arranque startup -->
+    <script>
+      if (window.MushraAudioControl) {
+        if (typeof window.MushraAudioControl.prototype.createLowerAnchor35 === "function") {
+          window.MushraAudioControl.prototype.createLowerAnchor35 = function () {
+            return;
+          };
+        }
+        if (typeof window.MushraAudioControl.prototype.convolve === "function") {
+          window.MushraAudioControl.prototype.convolve = function () {
+            return;
+          };
+        }
+      }
+    </script>
+
     <!-- import config -->
     <script src="lib/external/yaml/yaml.min.js"></script>
 
@@ -129,8 +145,11 @@ will be prosecuted to the maximum extent possible under law.
       <div id="popupResultsContent" style="background-color: white;" class="ui-corner-bottom ui-content">
       </div>
     </div>
+
     <script src="startup.min.js"></script>
-    <!-- Bloque para cargar tp_mushra.yaml directamente -->
+
+
+    <!-- nuestro loader del tp_mushra.yaml desde GitHub Pages -->
     <script type="module">
       import yaml from "https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.mjs";
 
@@ -142,11 +161,7 @@ will be prosecuted to the maximum extent possible under law.
 
       function waitForWebMushra(config) {
         const timer = setInterval(() => {
-          if (
-            window.webmushra &&
-            window.webmushra.main &&
-            typeof window.webmushra.main.startFromConfig === "function"
-          ) {
+          if (window.webmushra && window.webmushra.main && typeof window.webmushra.main.startFromConfig === "function") {
             clearInterval(timer);
             console.log("✅ webMUSHRA cargado, iniciando test...");
             window.webmushra.main.startFromConfig(config);
@@ -159,26 +174,6 @@ will be prosecuted to the maximum extent possible under law.
         console.log("✅ YAML cargado y parseado correctamente:", cfg);
         waitForWebMushra(cfg);
       })();
-    </script>
-    <script>
-      // cuando esté todo cargado, anulamos las funciones que rompen
-      window.addEventListener("load", function () {
-        if (window.MushraAudioControl) {
-          // anular ancla 35
-          if (typeof window.MushraAudioControl.prototype.createLowerAnchor35 === "function") {
-            window.MushraAudioControl.prototype.createLowerAnchor35 = function () {
-              // no-op
-            };
-          }
-          // anular convolución por si la llama directo
-          if (typeof window.MushraAudioControl.prototype.convolve === "function") {
-            window.MushraAudioControl.prototype.convolve = function () {
-              // no-op
-              return;
-            };
-          }
-        }
-      });
     </script>
   </body>
 </html>
