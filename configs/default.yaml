@@ -4,7 +4,7 @@ bufferSize: 2048
 stopOnErrors: true
 showButtonPreviousPage: true
 #remoteService: service/write.php
-remoteService: "https://mushra-codecsbt.onrender.com/save_result"
+remoteService: /save_result
 language: es
 
 
