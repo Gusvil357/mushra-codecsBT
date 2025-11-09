@@ -31,7 +31,7 @@ pages:
     showWaveform: false
     enableLooping: true
     reference: configs/resources/audio/calibration_noise.wav
-    defaultVolume: 0.25
+    defaultVolume: 0.01
 
   # 3) ENTRENAMIENTO
   - type: mushra
@@ -131,8 +131,7 @@ pages:
     name: Fin
     content: >
           ¡Gracias por participar!<br><br>
-          En unos segundos se descargará un archivo con tus resultados (formato .json).<br>
-          Ahora abrí este formulario y subí ese archivo:<br>
-          <a href="https://forms.gle/TU_LINK" target="_blank">https://forms.gle/TU_LINK</a>
+          Tus respuestas serán registradas al presionar "Send Results".<br>
     writeResults: false
     showResults: true
+    serviceResults: "https://mushra-codecsbt.onrender.com/save_result"
