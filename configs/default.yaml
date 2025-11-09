@@ -3,7 +3,7 @@ testId: tp_mushra
 bufferSize: 2048
 stopOnErrors: true
 showButtonPreviousPage: true
-remoteService: service/write.php
+#remoteService: service/write.php
 language: es
 
 
@@ -31,6 +31,7 @@ pages:
     showWaveform: false
     enableLooping: true
     reference: configs/resources/audio/calibration_noise.wav
+    defaultVolume: 0.5
 
   # 3) ENTRENAMIENTO
   - type: mushra
@@ -45,18 +46,17 @@ pages:
     reference: configs/resources/audio/jazz_hr.wav
     enableLooping: true
     randomize: false
-    showWaveform: false
+    showWaveform: true
     showConditionNames: true  # esto hace que aparezca el ID abajo de "Cond. X"
     # NO ponemos createAnchor35/70 para no que aparezcan esas extras
     stimuli:
       Ancla:     configs/resources/audio/jazz_an.wav
-      #Referencia oculta:       configs/resources/audio/jazz_hr.wav
       SBC:       configs/resources/audio/jazz_sbc.wav
       ADPCM:     configs/resources/audio/jazz_adpcm.wav
 
   # 4) TRIAL 1 – POP
   - type: mushra
-    id: pop_trial
+    id: trial_1
     name: Ensayo 1
     content: |
       Calificá cada versión según su <b>calidad percibida</b> en comparación con la referencia.<br>
@@ -74,7 +74,7 @@ pages:
 
   # 5) TRIAL 2 – ROCK
   - type: mushra
-    id: rock_trial
+    id: trial_2
     name: Ensayo 2
     content: |
       Calificá cada versión según su <b>calidad percibida</b> en comparación con la referencia.<br>
@@ -92,7 +92,7 @@ pages:
 
   # 6) TRIAL 3 – STRINGS / FOLK
   - type: mushra
-    id: strings_trial
+    id: trial_3
     name: Ensayo 3
     content: |
       Calificá cada versión según su <b>calidad percibida</b> en comparación con la referencia.<br>
@@ -110,7 +110,7 @@ pages:
 
   # 7) (OPCIONAL) TRIAL 4 – DRUM
   - type: mushra
-    id: drum_trial
+    id: trial_4
     name: Ensayo 4
     content: |
       Calificá cada versión según su <b>calidad percibida</b> en comparación con la referencia.<br>
@@ -135,4 +135,4 @@ pages:
           Ahora abrí este formulario y subí ese archivo:<br>
           <a href="https://forms.gle/TU_LINK" target="_blank">https://forms.gle/TU_LINK</a>
     writeResults: true
-    showResults: true
+    showResults: false
