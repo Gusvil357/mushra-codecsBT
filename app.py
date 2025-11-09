@@ -1,7 +1,7 @@
 from flask import Flask, send_from_directory, request, jsonify
 import os, json
 from datetime import datetime
-from urllib.parse import parse_qs, unquote_plus
+from urllib.parse import parse_qs
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 
@@ -18,7 +18,7 @@ def static_proxy(path):
 
 @app.route('/save_result', methods=['POST', 'OPTIONS'])
 def save_result():
-    # CORS / preflight
+    # --- CORS / preflight ---
     if request.method == 'OPTIONS':
         resp = jsonify({"status": "ok"})
         resp.headers.add("Access-Control-Allow-Origin", "*")
@@ -26,49 +26,54 @@ def save_result():
         resp.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
         return resp
 
-    # 1) LEER UNA SOLA VEZ EL CUERPO
+    # --- DEBUG: Imprimimos la petición cruda en los Logs de Render ---
     raw = request.get_data(as_text=True) or ""
-
-    # opcional: guardar siempre el crudo para debug
-    os.makedirs("results", exist_ok=True)
-    ts = datetime.utcnow().strftime("%Y%m%d_%H%M%S_%f")
-    raw_filename = os.path.join("results", f"raw_{ts}.txt")
-    with open(raw_filename, "w", encoding="utf-8") as f:
-        f.write(raw)
+    content_type = request.headers.get('Content-Type', 'N/A')
+    
+    print("--- DEBUG WEB_MUSHRA ---")
+    print(f"Content-Type recibido: {content_type}")
+    print(f"Body Crudo (primeros 500 caracteres): {raw[:500]}...")
+    print("--------------------------")
+    # --- FIN DEL DEBUG ---
 
     data = None
 
-    # 2) primero intentar parsear como JSON directo (lo que vimos que manda webMUSHRA)
-    try:
-        data = json.loads(raw)
-    except Exception:
-        data = None
+    # 1) intentar JSON puro
+    data = request.get_json(silent=True)
 
-    # 3) si no era JSON puro, probar formato form: "session=..."/"json=..."
+    # 2) probar form normal
+    if data is None and request.form:
+        if "session" in request.form:
+            data = json.loads(request.form["session"])
+
+    # 3) body crudo tipo "session=..."
     if data is None and raw:
         parsed = parse_qs(raw)
         if "session" in parsed:
-            session_str = unquote_plus(parsed["session"][0])
-            data = json.loads(session_str)
-        elif "json" in parsed:
-            session_str = unquote_plus(parsed["json"][0])
-            data = json.loads(session_str)
+            data = json.loads(parsed["session"][0])
+    
+    # 4) body crudo como JSON
+    if data is None and raw:
+        try:
+            data = json.loads(raw)
+        except json.JSONDecodeError:
+            pass 
 
     if data is None:
-        # no se pudo interpretar, pero el raw ya quedó guardado
-        resp = jsonify({"status": "error", "reason": "no data received"})
+        print("❌ PARSEO FALLIDO: No se pudieron extraer datos.")
+        resp = jsonify({"status": "error", "reason": "no data received or bad format"})
         resp.headers.add("Access-Control-Allow-Origin", "*")
         return resp, 400
 
-    # 4) guardar el JSON ya parseado
-    result_filename = os.path.join("results", f"result_{ts}.json")
-    with open(result_filename, "w", encoding="utf-8") as f:
+    # --- Guardado en disco efímero (como querías probar) ---
+    os.makedirs("results", exist_ok=True)
+    ts = datetime.utcnow().strftime("%Y%m%d_%H%M%S_%f")
+    filename = os.path.join("results", f"result_{ts}.json")
+    with open(filename, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
-    print(f"✅ guardado: {result_filename}")
+    print(f"✅ ¡ÉXITO! Resultado guardado en {filename}")
 
     resp = jsonify({"status": "ok"})
     resp.headers.add("Access-Control-Allow-Origin", "*")
     return resp
-
-
