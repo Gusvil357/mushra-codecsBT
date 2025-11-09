@@ -130,6 +130,9 @@ pages:
   - type: finish
     name: Fin
     content: >
-      ¡Gracias por participar! Tus respuestas serán registradas al presionar "Send Results".
-    writeResults: false
-    showResults: false
+          ¡Gracias por participar!<br><br>
+          En unos segundos se descargará un archivo con tus resultados (formato .json).<br>
+          Ahora abrí este formulario y subí ese archivo:<br>
+          <a href="https://forms.gle/TU_LINK" target="_blank">https://forms.gle/TU_LINK</a>
+    writeResults: true
+    showResults: true
