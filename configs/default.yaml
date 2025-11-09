@@ -3,7 +3,7 @@ testId: tp_mushra
 bufferSize: 2048
 stopOnErrors: true
 showButtonPreviousPage: true
-#remoteService: service/write.php
+remoteService: "https://mushra-codecsbt.onrender.com/save_result"
 language: es
 
 
@@ -135,5 +135,3 @@ pages:
           Tus respuestas serán registradas al presionar "Send Results".<br>
     writeResults: true
     showResults: true
-    remoteService: /
-    serviceResults: "https://mushra-codecsbt.onrender.com/save_result"
