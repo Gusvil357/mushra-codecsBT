@@ -1,7 +1,6 @@
 from flask import Flask, send_from_directory, request, jsonify
 import os, json
 from datetime import datetime
-from urllib.parse import parse_qs
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 
@@ -26,34 +25,24 @@ def save_result():
         resp.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
         return resp
 
-    data = None
-
-    # 1) intentar JSON puro
+    # 1) intentá leer JSON "normal"
     data = request.get_json(silent=True)
 
-    # 2) probar form normal: webMUSHRA suele mandar "session=...."
-    if data is None and request.form:
-        if "session" in request.form:              # <── ESTA es la clave
-            data = json.loads(request.form["session"])
-        elif "json" in request.form:
-            data = json.loads(request.form["json"])
-
-    # 3) último recurso: body crudo tipo "session=..."
+    # 2) si no vino, leemos el body crudo y lo parseamos como JSON
     if data is None:
         raw = request.get_data(as_text=True) or ""
-        # puede venir como "session=%7B...%7D"
-        parsed = parse_qs(raw)
-        if "session" in parsed:
-            data = json.loads(parsed["session"][0])
-        elif "json" in parsed:
-            data = json.loads(parsed["json"][0])
+        try:
+            data = json.loads(raw)
+        except Exception:
+            data = None
 
     if data is None:
+        # sigue sin haber datos válidos
         resp = jsonify({"status": "error", "reason": "no data received"})
         resp.headers.add("Access-Control-Allow-Origin", "*")
         return resp, 400
 
-    # --- guardar en /results ---
+    # 3) guardar
     os.makedirs("results", exist_ok=True)
     ts = datetime.utcnow().strftime("%Y%m%d_%H%M%S_%f")
     filename = os.path.join("results", f"result_{ts}.json")
@@ -65,4 +54,5 @@ def save_result():
     resp = jsonify({"status": "ok"})
     resp.headers.add("Access-Control-Allow-Origin", "*")
     return resp
+
 
