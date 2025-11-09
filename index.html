@@ -85,37 +85,6 @@ will be prosecuted to the maximum extent possible under law.
       nls.es.bad = "Muy degradado";
     </script>
 
-    <script>
-      // sobrescribo el “enviador” de datos para que descargue el JSON
-      (function () {
-        // por si alguna vez hay remoteService, lo dejamos vivir,
-        // pero acá directamente forzamos la descarga
-        if (typeof DataSender === "undefined") return;
-
-        DataSender.prototype.send = function (session) {
-          const json = JSON.stringify(session, null, 2);
-
-          // nombre de archivo: testId_fecha.json
-          const testId = session.testId || "mushra";
-          const ts = new Date().toISOString().replace(/[:.]/g, "-");
-          const fname = `${testId}_${ts}.json`;
-
-          const blob = new Blob([json], { type: "application/json" });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = fname;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          URL.revokeObjectURL(url);
-
-          // webMUSHRA espera 1 si “salió bien”
-          return 1;
-        };
-      })();
-    </script>
-
     <link rel="stylesheet" href="design/style.css">
   </head>
 
