@@ -26,11 +26,11 @@ def save_result():
         resp.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
         return resp
 
-    # --- DEBUG: Imprimimos la petición cruda en los Logs de Render ---
+    # --- DEBUG (Podemos dejarlo por ahora) ---
     raw = request.get_data(as_text=True) or ""
     content_type = request.headers.get('Content-Type', 'N/A')
     
-    print("--- DEBUG WEB_MUSHRA ---")
+    print("--- DEBUG WEB_MUSHRA (v3 - buscando 'sessionJSON') ---")
     print(f"Content-Type recibido: {content_type}")
     print(f"Body Crudo (primeros 500 caracteres): {raw[:500]}...")
     print("--------------------------")
@@ -41,21 +41,28 @@ def save_result():
     # 1) intentar JSON puro
     data = request.get_json(silent=True)
 
-    # 2) probar form normal
+    # 2) probar form normal (ESTE ES EL QUE DEBERÍA FUNCIONAR)
     if data is None and request.form:
-        if "session" in request.form:
+        if "sessionJSON" in request.form:  # <--- ¡CORREGIDO!
+            print("Parseo exitoso (Caso 2: request.form['sessionJSON'])")
+            data = json.loads(request.form["sessionJSON"])
+        elif "session" in request.form:
             data = json.loads(request.form["session"])
 
     # 3) body crudo tipo "session=..."
     if data is None and raw:
         parsed = parse_qs(raw)
-        if "session" in parsed:
+        if "sessionJSON" in parsed: # <--- ¡CORREGIDO!
+            print("Parseo exitoso (Caso 3: parse_qs(raw)['sessionJSON'])")
+            data = json.loads(parsed["sessionJSON"][0])
+        elif "session" in parsed:
             data = json.loads(parsed["session"][0])
     
     # 4) body crudo como JSON
     if data is None and raw:
         try:
             data = json.loads(raw)
+            print("Parseo exitoso (Caso 4: json.loads(raw))")
         except json.JSONDecodeError:
             pass 
 
@@ -65,7 +72,7 @@ def save_result():
         resp.headers.add("Access-Control-Allow-Origin", "*")
         return resp, 400
 
-    # --- Guardado en disco efímero (como querías probar) ---
+    # --- Guardado en disco efímero ---
     os.makedirs("results", exist_ok=True)
     ts = datetime.utcnow().strftime("%Y%m%d_%H%M%S_%f")
     filename = os.path.join("results", f"result_{ts}.json")
