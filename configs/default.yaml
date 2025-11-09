@@ -31,7 +31,7 @@ pages:
     showWaveform: false
     enableLooping: true
     reference: configs/resources/audio/calibration_noise.wav
-    defaultVolume: 0.01
+    defaultVolume: 0.1
 
   # 3) ENTRENAMIENTO
   - type: mushra
@@ -132,6 +132,6 @@ pages:
     content: >
           ¡Gracias por participar!<br><br>
           Tus respuestas serán registradas al presionar "Send Results".<br>
-    writeResults: false
+    writeResults: true
     showResults: true
     serviceResults: "https://mushra-codecsbt.onrender.com/save_result"
