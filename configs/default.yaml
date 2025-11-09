@@ -107,24 +107,6 @@ pages:
       opus: configs/resources/audio/strings_opus.wav
       lc3: configs/resources/audio/strings_lc3.wav
 
-  # 7) (OPCIONAL) TRIAL 4 – DRUM
-  - type: mushra
-    id: trial_4
-    name: Ensayo 4
-    content: |
-      Calificá cada versión según su <b>calidad percibida</b> en comparación con la referencia.<br>
-      Podés reproducir los audios las veces que necesites y en cualquier orden.
-    reference: configs/resources/audio/drum_hr.wav
-    enableLooping: true
-    randomize: true
-    stimuli:
-      anchor: configs/resources/audio/drum_an.wav
-      sbc: configs/resources/audio/drum_sbc.wav
-      aac: configs/resources/audio/drum_aac.wav
-      adpcm: configs/resources/audio/drum_adpcm.wav
-      opus: configs/resources/audio/drum_opus.wav
-      lc3: configs/resources/audio/drum_lc3.wav
-
   # 8) FIN
   - type: finish
     id: final
@@ -133,6 +115,5 @@ pages:
     content: >
           ¡Gracias por participar!<br><br>
           Tus respuestas serán registradas al presionar "Send Results".<br>
-    serviceResults: "https://mushra-codecsbt.onrender.com/save_result"
     writeResults: true
     showResults: true
