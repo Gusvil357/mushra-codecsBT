@@ -31,7 +31,6 @@ pages:
     showWaveform: false
     enableLooping: true
     reference: configs/resources/audio/calibration_noise.wav
-    defaultVolume: 0.1
 
   # 3) ENTRENAMIENTO
   - type: mushra
