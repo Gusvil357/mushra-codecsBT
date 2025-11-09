@@ -129,7 +129,7 @@ pages:
   - type: finish
     id: final
     name: Fin
-    post_type: POST
+    #post_type: POST
     content: >
           ¡Gracias por participar!<br><br>
           Tus respuestas serán registradas al presionar "Send Results".<br>
