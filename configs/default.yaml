@@ -18,13 +18,13 @@ pages:
       Bienvenido/a al test de evaluación subjetiva de calidad de audio.<br><br>
 
       En este experimento vas a escuchar fragmentos musicales procesados con distintos códecs.<br>
-      La tarea es <b>calificar</b> qué tan bien suena cada versión en <b>comparación</b> con la <b>referencia original</b>.<br>
-      Cómo realizar la evaluación: <br><br>
-      - En cada pantalla vas a tener una <b>referencia</b> (100 = calidad original) y varias versiones procesadas.<br>
-      - Escuchá libremente las muestras todas las veces que quieras.<br>
-      - Luego, asigná una puntuación de 0 a 100, donde:<br>
+      La tarea es <b>calificar</b> qué tan bien suena cada versión en <b>comparación</b> con la <b>referencia original</b>.<br><br>
+      Cómo realizar la evaluación: <br>
+      1) En cada pantalla vas a tener una <b>referencia</b> (100 = calidad original) y varias versiones procesadas.<br>
+      2) Escuchá libremente las muestras todas las veces que quieras.<br>
+      3) Luego, asigná una puntuación de 0 a 100, donde:<br>
           - 100 = idéntico a la referencia orginal<br>  
-          - 0 = muy degradado o con artefactos audibles<br>
+          - 0 = muy degradado o con artefactos audibles<br><br>
         No hay respuestas correctas o incorrectas: lo que importa es tu <b>percepción personal</b>.
 
   # 2) CALIBRACIÓN
@@ -121,9 +121,9 @@ pages:
     post_type: POST
     content: >
           ¡Gracias por participar!<br><br>
-          Tus respuestas serán registradas al presionar "Send Results".<br><br>
+          Tus respuestas serán registradas al presionar <b>"Send Results"</b>.<br><br>
 
-          Por cualquier comentario o consulta, podes contactarme a villatarco40681@estudiantes.untref.edu.ar <br>
+          Por cualquier comentario o consulta, podes contactarme a <b>villatarco40681@estudiantes.untref.edu.ar</b> <br>
           Agradezco tu tiempo y compromiso.<br>
     writeResults: true
     showResults: true
