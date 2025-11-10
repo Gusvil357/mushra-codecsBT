@@ -130,6 +130,44 @@ will be prosecuted to the maximum extent possible under law.
       </div>
     </div>
 
+    <script>
+    // 1) leer el parámetro ?id=... que mandó Tally
+    const urlParams = new URLSearchParams(window.location.search);
+    const participantId = urlParams.get("id");
+
+    // 2) cuando webMUSHRA ya está cargado, sobreescribimos el envío
+    //    para inyectar ese id dentro del JSON de la sesión
+    (function() {
+      // chequeamos cada 100 ms hasta que exista FinishPage
+      const interval = setInterval(function() {
+        if (typeof FinishPage !== "undefined") {
+
+          // guardamos el método original
+          const originalSend = FinishPage.prototype.sendResults;
+
+          // definimos el nuevo
+          FinishPage.prototype.sendResults = function() {
+            try {
+              if (participantId) {
+                // nos aseguramos de que exista el objeto participant
+                this.session.participant = this.session.participant || {};
+                // guardamos el id que vino de Tally
+                this.session.participant.submission_id = participantId;
+              }
+            } catch (e) {
+              console.log("No se pudo inyectar el ID del participante:", e);
+            }
+
+            // llamamos al método original (esto hace el POST o la descarga)
+            return originalSend.apply(this, arguments);
+          };
+
+          clearInterval(interval);
+        }
+      }, 100);
+    })();
+    </script>
+    
     <script src="startup.min.js"></script>
 
   </body>
